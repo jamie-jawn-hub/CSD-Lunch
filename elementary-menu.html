@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<!--
+  Google Sites / iframe: host this file on HTTPS (e.g. GitHub Pages), then Insert → Embed → by URL.
+  Embed mode (tighter layout) runs when: page is in an iframe, or URL has ?embed=1 or ?embed=sites
+  Full layout in iframe: add ?embed=0
+  Your static host may need headers so Google can frame the page (e.g. Content-Security-Policy frame-ancestors https://sites.google.com).
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --text: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --separator: rgba(0, 0, 0, 0.08);
+      --accent: #0071e3;
+      --radius: 18px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+        "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #1c1c1e;
+        --text: #f5f5f7;
+        --text-secondary: #a1a1a6;
+        --separator: rgba(255, 255, 255, 0.12);
+        --accent: #0a84ff;
+        --shadow: 0 4px 32px rgba(0, 0, 0, 0.45);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px 48px;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 880px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    header h1 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-secondary);
+      margin: 0 0 6px;
+      text-transform: none;
+    }
+    header .brand {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin: 0;
+    }
+    header .brand .brand-sep {
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 0 0.12em;
+    }
+    .strip {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .strip .card {
+      min-width: 0;
+    }
+    @media (max-width: 520px) {
+      .strip {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 14px 20px;
+      }
+      .strip .card {
+        grid-column: 1 / -1;
+        grid-row: 1;
+      }
+      #prev {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: end;
+      }
+      #next {
+        grid-column: 2;
+        grid-row: 2;
+        justify-self: start;
+      }
+    }
+    .nav-btn {
+      width: 48px;
+      height: 48px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: none;
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .nav-btn:hover {
+      transform: scale(1.04);
+    }
+    .nav-btn:active {
+      transform: scale(0.96);
+    }
+    .nav-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .nav-btn svg {
+      width: 18px;
+      height: 18px;
+      opacity: 0.88;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 32px 40px;
+      text-align: center;
+    }
+    @media (min-width: 600px) {
+      .card { padding: 44px 48px 48px; }
+    }
+    .date-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .date-line {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+    .today-pill {
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 100px;
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.35);
+    }
+    @media (prefers-color-scheme: dark) {
+      .today-pill {
+        box-shadow: 0 2px 12px rgba(10, 132, 255, 0.45);
+      }
+    }
+    .day-line {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin: 0 0 20px;
+    }
+    .menu-stack {
+      text-align: left;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .meal-block-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+    .meal-block .breakfast-plain {
+      text-align: left;
+    }
+    .menu-divider {
+      height: 1px;
+      background: var(--separator);
+      margin: 22px 0;
+    }
+    .sections {
+      text-align: left;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .section {
+      margin-bottom: 22px;
+    }
+    .section:last-child { margin-bottom: 0; }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .section-body {
+      font-size: 17px;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .empty {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    .jump-today {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+    }
+    .jump-today button {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 14px;
+      border-radius: 999px;
+    }
+    .jump-today button:hover {
+      text-decoration: underline;
+    }
+    .jump-today button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    /* Buttons stay in the DOM (same ids, same listeners); hidden from layout and view. */
+    .toolbar {
+      display: none;
+    }
+    .btn-primary {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+    }
+    .btn-primary:hover:not(:disabled) {
+      opacity: 0.92;
+    }
+    .btn-primary:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+    .btn-primary:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .btn-ghost {
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 10px 12px;
+      border-radius: 999px;
+    }
+    .btn-ghost:hover {
+      text-decoration: underline;
+    }
+    .btn-ghost:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .refresh-status {
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .refresh-status.error {
+      color: #c62828;
+    }
+    @media (prefers-color-scheme: dark) {
+      .refresh-status.error {
+        color: #ff6b6b;
+      }
+    }
+
+    /* Embedded in Google Sites or other iframes — compact vertical footprint */
+    html.embed-mode,
+    html.embed-mode body {
+      min-height: 100%;
+    }
+    html.embed-mode body {
+      justify-content: flex-start;
+      padding: 16px 14px 28px;
+    }
+    html.embed-mode .wrap {
+      max-width: 100%;
+    }
+    html.embed-mode header {
+      margin-bottom: 16px;
+    }
+    html.embed-mode header .brand {
+      font-size: 22px;
+    }
+    html.embed-mode header h1 {
+      font-size: 11px;
+    }
+    html.embed-mode .strip {
+      gap: 10px;
+    }
+    html.embed-mode .card {
+      padding: 24px 18px 28px;
+    }
+    html.embed-mode .date-line {
+      font-size: 18px;
+    }
+    html.embed-mode .day-line {
+      margin-bottom: 14px;
+    }
+    html.embed-mode .section-body {
+      font-size: 15px;
+    }
+    html.embed-mode footer .footer-verbose {
+      display: none;
+    }
+    html.embed-mode footer {
+      margin-top: 20px;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    (function () {
+      try {
+        var p = new URLSearchParams(location.search);
+        var v = (p.get("embed") || "").toLowerCase();
+        var inFrame = false;
+        try {
+          inFrame = window.self !== window.top;
+        } catch (e) {
+          inFrame = true;
+        }
+        var embed =
+          v === "1" ||
+          v === "sites" ||
+          v === "true" ||
+          (inFrame && v !== "0" && v !== "false" && v !== "off");
+        if (embed) {
+          document.documentElement.classList.add("embed-mode");
+        }
+      } catch (e2) {}
+    })();
+  </script>
+  <div class="wrap">
+    <header>
+      <h1>City Schools of Decatur</h1>
+      <p class="brand">
+        Breakfast<span class="brand-sep">·</span>Elementary lunch<span class="brand-sep">·</span>Beacon Hill MS<span class="brand-sep">·</span>Decatur HS
+      </p>
+    </header>
+    <div class="strip">
+      <button type="button" class="nav-btn" id="prev" aria-label="Previous day">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <article class="card" id="card" aria-live="polite">
+        <div class="date-row">
+          <span class="today-pill" id="todayPill" hidden>Today</span>
+          <p class="date-line" id="dateLine"></p>
+        </div>
+        <p class="day-line" id="dayLine"></p>
+        <div id="content"></div>
+      </article>
+      <button type="button" class="nav-btn" id="next" aria-label="Next day">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="jump-today" id="jumpTodayWrap" hidden>
+      <button type="button" id="jumpToday">Jump to today</button>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="btn-primary" id="btnRefresh">Refresh from district</button>
+      <button type="button" class="btn-ghost" id="btnResetBuiltin">Use built-in data</button>
+    </div>
+    <p class="refresh-status" id="refreshStatus" role="status"></p>
+    <footer>
+      City Schools of Decatur · Breakfast, elementary lunch, Beacon Hill MS & Decatur HS · SY 25/26<br />
+      <span class="footer-verbose">Mon–Fri school days · Refresh loads the nutrition menus page once, then follows “Breakfast Menu…”, “Elementary (K-5) Menu…”, “Beacon Hill Middle Menu…”, and “Decatur High Menu…” resource links to four PDFs (Codetabs proxy only if the browser cannot read csdecatur.net directly). Each PDF falls back to a built-in Finalsite URL if needed.</span>
+    </footer>
+  </div>
+  <script id="builtin-menus" type="application/json">{"breakfast":[{"iso":"2026-08-03","dateLabel":"August 3, 2026","day":"Monday","rotation":"MENU 2","menu":"CINNAMON ROLLS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-04","dateLabel":"August 4, 2026","day":"Tuesday","rotation":"MENU 2","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-05","dateLabel":"August 5, 2026","day":"Wednesday","rotation":"MENU 2","menu":"PANCAKE & SAUSAGE WRAPS W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-06","dateLabel":"August 6, 2026","day":"Thursday","rotation":"MENU 2","menu":"EGG AND CHEESE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-08-07","dateLabel":"August 7, 2026","day":"Friday","rotation":"MENU 2","menu":"BREAKFAST BUN ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-10","dateLabel":"August 10, 2026","day":"Monday","rotation":"MENU 3","menu":"ASSORTED MUFFINS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-11","dateLabel":"August 11, 2026","day":"Tuesday","rotation":"MENU 3","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-12","dateLabel":"August 12, 2026","day":"Wednesday","rotation":"MENU 3","menu":"APPLE STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-13","dateLabel":"August 13, 2026","day":"Thursday","rotation":"MENU 3","menu":"FROOT LOOP WAFFLES W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-08-14","dateLabel":"August 14, 2026","day":"Friday","rotation":"MENU 3","menu":"CHURRO BITES w/ YOGURT DIP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-17","dateLabel":"August 17, 2026","day":"Monday","rotation":"MENU 1","menu":"FRENCH TOAST BITES w/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-18","dateLabel":"August 18, 2026","day":"Tuesday","rotation":"MENU 1","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-19","dateLabel":"August 19, 2026","day":"Wednesday","rotation":"MENU 1","menu":"CHERRY STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-20","dateLabel":"August 20, 2026","day":"Thursday","rotation":"MENU 1","menu":"SAUSAGE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-08-21","dateLabel":"August 21, 2026","day":"Friday","rotation":"MENU 1","menu":"TROPICAL MANGO YOGURT W/NUTRI GRAIN BAR ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-24","dateLabel":"August 24, 2026","day":"Monday","rotation":"MENU 2","menu":"CINNAMON ROLLS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-25","dateLabel":"August 25, 2026","day":"Tuesday","rotation":"MENU 2","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-26","dateLabel":"August 26, 2026","day":"Wednesday","rotation":"MENU 2","menu":"PANCAKE & SAUSAGE WRAPS W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-27","dateLabel":"August 27, 2026","day":"Thursday","rotation":"MENU 2","menu":"EGG AND CHEESE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-08-28","dateLabel":"August 28, 2026","day":"Friday","rotation":"MENU 2","menu":"BREAKFAST BUN ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-08-31","dateLabel":"August 31, 2026","day":"Monday","rotation":"MENU 3","menu":"ASSORTED MUFFINS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-01","dateLabel":"September 1, 2026","day":"Tuesday","rotation":"MENU 3","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-02","dateLabel":"September 2, 2026","day":"Wednesday","rotation":"MENU 3","menu":"APPLE STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-03","dateLabel":"September 3, 2026","day":"Thursday","rotation":"MENU 3","menu":"FROOT LOOP WAFFLES W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-09-04","dateLabel":"September 4, 2026","day":"Friday","rotation":"MENU 3","menu":"CHURRO BITES w/ YOGURT DIP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-07","dateLabel":"September 7, 2026","day":"Monday","rotation":"MENU 1","menu":"FRENCH TOAST BITES w/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-08","dateLabel":"September 8, 2026","day":"Tuesday","rotation":"MENU 1","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-09","dateLabel":"September 9, 2026","day":"Wednesday","rotation":"MENU 1","menu":"CHERRY STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-10","dateLabel":"September 10, 2026","day":"Thursday","rotation":"MENU 1","menu":"SAUSAGE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-09-11","dateLabel":"September 11, 2026","day":"Friday","rotation":"MENU 1","menu":"TROPICAL MANGO YOGURT W/NUTRI GRAIN BAR ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-14","dateLabel":"September 14, 2026","day":"Monday","rotation":"MENU 2","menu":"CINNAMON ROLLS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-15","dateLabel":"September 15, 2026","day":"Tuesday","rotation":"MENU 2","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-16","dateLabel":"September 16, 2026","day":"Wednesday","rotation":"MENU 2","menu":"PANCAKE & SAUSAGE WRAPS W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-17","dateLabel":"September 17, 2026","day":"Thursday","rotation":"MENU 2","menu":"EGG AND CHEESE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-09-18","dateLabel":"September 18, 2026","day":"Friday","rotation":"MENU 2","menu":"BREAKFAST BUN ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-21","dateLabel":"September 21, 2026","day":"Monday","rotation":"MENU 3","menu":"ASSORTED MUFFINS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-22","dateLabel":"September 22, 2026","day":"Tuesday","rotation":"MENU 3","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-23","dateLabel":"September 23, 2026","day":"Wednesday","rotation":"MENU 3","menu":"APPLE STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-24","dateLabel":"September 24, 2026","day":"Thursday","rotation":"MENU 3","menu":"FROOT LOOP WAFFLES W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-09-25","dateLabel":"September 25, 2026","day":"Friday","rotation":"MENU 3","menu":"CHURRO BITES w/ YOGURT DIP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-28","dateLabel":"September 28, 2026","day":"Monday","rotation":"MENU 1","menu":"FRENCH TOAST BITES w/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-29","dateLabel":"September 29, 2026","day":"Tuesday","rotation":"MENU 1","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-09-30","dateLabel":"September 30, 2026","day":"Wednesday","rotation":"MENU 1","menu":"CHERRY STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-01","dateLabel":"October 1, 2026","day":"Thursday","rotation":"MENU 1","menu":"SAUSAGE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-10-02","dateLabel":"October 2, 2026","day":"Friday","rotation":"MENU 1","menu":"TROPICAL MANGO YOGURT W/NUTRI GRAIN BAR ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-05","dateLabel":"October 5, 2026","day":"Monday","rotation":"MENU 2","menu":"CINNAMON ROLLS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-06","dateLabel":"October 6, 2026","day":"Tuesday","rotation":"MENU 2","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-07","dateLabel":"October 7, 2026","day":"Wednesday","rotation":"MENU 2","menu":"PANCAKE & SAUSAGE WRAPS W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-08","dateLabel":"October 8, 2026","day":"Thursday","rotation":"MENU 2","menu":"EGG AND CHEESE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-10-09","dateLabel":"October 9, 2026","day":"Friday","rotation":"MENU 2","menu":"BREAKFAST BUN ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-12","dateLabel":"October 12, 2026","day":"Monday","rotation":"MENU 3","menu":"ASSORTED MUFFINS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-13","dateLabel":"October 13, 2026","day":"Tuesday","rotation":"MENU 3","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-14","dateLabel":"October 14, 2026","day":"Wednesday","rotation":"MENU 3","menu":"APPLE STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-15","dateLabel":"October 15, 2026","day":"Thursday","rotation":"MENU 3","menu":"FROOT LOOP WAFFLES W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-10-16","dateLabel":"October 16, 2026","day":"Friday","rotation":"MENU 3","menu":"CHURRO BITES w/ YOGURT DIP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-19","dateLabel":"October 19, 2026","day":"Monday","rotation":"MENU 1","menu":"FRENCH TOAST BITES w/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-20","dateLabel":"October 20, 2026","day":"Tuesday","rotation":"MENU 1","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-21","dateLabel":"October 21, 2026","day":"Wednesday","rotation":"MENU 1","menu":"CHERRY STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-22","dateLabel":"October 22, 2026","day":"Thursday","rotation":"MENU 1","menu":"SAUSAGE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-10-23","dateLabel":"October 23, 2026","day":"Friday","rotation":"MENU 1","menu":"TROPICAL MANGO YOGURT W/NUTRI GRAIN BAR ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-26","dateLabel":"October 26, 2026","day":"Monday","rotation":"MENU 2","menu":"CINNAMON ROLLS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-27","dateLabel":"October 27, 2026","day":"Tuesday","rotation":"MENU 2","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-28","dateLabel":"October 28, 2026","day":"Wednesday","rotation":"MENU 2","menu":"PANCAKE & SAUSAGE WRAPS W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-10-29","dateLabel":"October 29, 2026","day":"Thursday","rotation":"MENU 2","menu":"EGG AND CHEESE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-10-30","dateLabel":"October 30, 2026","day":"Friday","rotation":"MENU 2","menu":"BREAKFAST BUN ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-02","dateLabel":"November 2, 2026","day":"Monday","rotation":"MENU 3","menu":"ASSORTED MUFFINS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-03","dateLabel":"November 3, 2026","day":"Tuesday","rotation":"MENU 3","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-04","dateLabel":"November 4, 2026","day":"Wednesday","rotation":"MENU 3","menu":"APPLE STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-05","dateLabel":"November 5, 2026","day":"Thursday","rotation":"MENU 3","menu":"FROOT LOOP WAFFLES W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-11-06","dateLabel":"November 6, 2026","day":"Friday","rotation":"MENU 3","menu":"CHURRO BITES w/ YOGURT DIP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-09","dateLabel":"November 9, 2026","day":"Monday","rotation":"MENU 1","menu":"FRENCH TOAST BITES w/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-10","dateLabel":"November 10, 2026","day":"Tuesday","rotation":"MENU 1","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-11","dateLabel":"November 11, 2026","day":"Wednesday","rotation":"MENU 1","menu":"CHERRY STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-12","dateLabel":"November 12, 2026","day":"Thursday","rotation":"MENU 1","menu":"SAUSAGE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-11-13","dateLabel":"November 13, 2026","day":"Friday","rotation":"MENU 1","menu":"TROPICAL MANGO YOGURT W/NUTRI GRAIN BAR ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-16","dateLabel":"November 16, 2026","day":"Monday","rotation":"MENU 2","menu":"CINNAMON ROLLS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-17","dateLabel":"November 17, 2026","day":"Tuesday","rotation":"MENU 2","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-18","dateLabel":"November 18, 2026","day":"Wednesday","rotation":"MENU 2","menu":"PANCAKE & SAUSAGE WRAPS W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-19","dateLabel":"November 19, 2026","day":"Thursday","rotation":"MENU 2","menu":"EGG AND CHEESE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-11-20","dateLabel":"November 20, 2026","day":"Friday","rotation":"MENU 2","menu":"BREAKFAST BUN ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-23","dateLabel":"November 23, 2026","day":"Monday","rotation":"MENU 3","menu":"ASSORTED MUFFINS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-24","dateLabel":"November 24, 2026","day":"Tuesday","rotation":"MENU 3","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-25","dateLabel":"November 25, 2026","day":"Wednesday","rotation":"MENU 3","menu":"APPLE STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-26","dateLabel":"November 26, 2026","day":"Thursday","rotation":"MENU 3","menu":"FROOT LOOP WAFFLES W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-11-27","dateLabel":"November 27, 2026","day":"Friday","rotation":"MENU 3","menu":"CHURRO BITES w/ YOGURT DIP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-11-30","dateLabel":"November 30, 2026","day":"Monday","rotation":"MENU 1","menu":"FRENCH TOAST BITES w/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-01","dateLabel":"December 1, 2026","day":"Tuesday","rotation":"MENU 1","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-02","dateLabel":"December 2, 2026","day":"Wednesday","rotation":"MENU 1","menu":"CHERRY STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-03","dateLabel":"December 3, 2026","day":"Thursday","rotation":"MENU 1","menu":"SAUSAGE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-12-04","dateLabel":"December 4, 2026","day":"Friday","rotation":"MENU 1","menu":"TROPICAL MANGO YOGURT W/NUTRI GRAIN BAR ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-07","dateLabel":"December 7, 2026","day":"Monday","rotation":"MENU 2","menu":"CINNAMON ROLLS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-08","dateLabel":"December 8, 2026","day":"Tuesday","rotation":"MENU 2","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-09","dateLabel":"December 9, 2026","day":"Wednesday","rotation":"MENU 2","menu":"PANCAKE & SAUSAGE WRAPS W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-10","dateLabel":"December 10, 2026","day":"Thursday","rotation":"MENU 2","menu":"EGG AND CHEESE BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-12-11","dateLabel":"December 11, 2026","day":"Friday","rotation":"MENU 2","menu":"BREAKFAST BUN ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-14","dateLabel":"December 14, 2026","day":"Monday","rotation":"MENU 3","menu":"ASSORTED MUFFINS ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-15","dateLabel":"December 15, 2026","day":"Tuesday","rotation":"MENU 3","menu":"CHICKEN BISCUIT ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-16","dateLabel":"December 16, 2026","day":"Wednesday","rotation":"MENU 3","menu":"APPLE STRUDEL ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"},{"iso":"2026-12-17","dateLabel":"December 17, 2026","day":"Thursday","rotation":"MENU 3","menu":"FROOT LOOP WAFFLES W/ SYRUP ASSORTED CEREALS CHOICE OF FRUIT, JUICE, AND MILK"},{"iso":"2026-12-18","dateLabel":"December 18, 2026","day":"Friday","rotation":"MENU 3","menu":"CHURRO BITES w/ YOGURT DIP ASSORTED CEREALS CHOICE OF FRUIT, JUICE AND MILK"}],"lunch":[{"iso":"2026-08-03","dateLabel":"August 3, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: CHICKEN SANDWICH CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: MIXED VEGETABLES (PB) (V) (PB) CARROT CRISPS"},{"iso":"2026-08-04","dateLabel":"August 4, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED CORN (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-05","dateLabel":"August 5, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-06","dateLabel":"August 6, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: (V) BBQ BAKED BEANS CARROT/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-07","dateLabel":"August 7, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-10","dateLabel":"August 10, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: GARLICKY GREEN BEANS (PB) August Choice CARROT CRISPS (PB) of Turkey Sub W/ Lettuce ASSORTED FRUIT & Tomato or PB&J & SELECTIONS fruit selection"},{"iso":"2026-08-11","dateLabel":"August 11, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS CHEESE QUESADILLA (V) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-12","dateLabel":"August 12, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-13","dateLabel":"August 13, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY FRENCH FRIES (PB) BROCCOLI/TOMATO CUP (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-14","dateLabel":"August 14, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB) CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-17","dateLabel":"August 17, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: CHICKEN SLIDERS (WG) CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (V) (PB) 18th"},{"iso":"2026-08-18","dateLabel":"August 18, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: QUESO BEEF NACHOS (GF) QUESO BLANCO NACHOS W/ SALSA (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTION"},{"iso":"2026-08-19","dateLabel":"August 19, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS w/ ROLL CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: MIXED VEGETABLES (PB) CELERY/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-20","dateLabel":"August 20, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY TATER TOTS (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-21","dateLabel":"August 21, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHEESY CHICKEN PASTA CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: STEAMED BROCCOLI (PB) (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-24","dateLabel":"August 24, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: CHICKEN SANDWICH CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: MIXED VEGETABLES (PB) (V) (PB) CARROT CRISPS"},{"iso":"2026-08-25","dateLabel":"August 25, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED CORN (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-26","dateLabel":"August 26, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-27","dateLabel":"August 27, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: (V) BBQ BAKED BEANS CARROT/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-28","dateLabel":"August 28, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-31","dateLabel":"August 31, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: GARLICKY GREEN BEANS (PB) August Choice CARROT CRISPS (PB) of Turkey Sub W/ Lettuce ASSORTED FRUIT & Tomato or PB&J & SELECTIONS fruit selection"},{"iso":"2026-09-01","dateLabel":"September 1, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS CHEESE QUESADILLA (V) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-02","dateLabel":"September 2, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-03","dateLabel":"September 3, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY FRENCH FRIES (PB) BROCCOLI/TOMATO CUP (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-04","dateLabel":"September 4, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB) CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-07","dateLabel":"September 7, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: CHICKEN SLIDERS (WG) CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (V) (PB) 18th"},{"iso":"2026-09-08","dateLabel":"September 8, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: QUESO BEEF NACHOS (GF) QUESO BLANCO NACHOS W/ SALSA (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTION"},{"iso":"2026-09-09","dateLabel":"September 9, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS w/ ROLL CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: MIXED VEGETABLES (PB) CELERY/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-10","dateLabel":"September 10, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY TATER TOTS (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-11","dateLabel":"September 11, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHEESY CHICKEN PASTA CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: STEAMED BROCCOLI (PB) (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-14","dateLabel":"September 14, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: CHICKEN SANDWICH CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: MIXED VEGETABLES (PB) (V) (PB) CARROT CRISPS"},{"iso":"2026-09-15","dateLabel":"September 15, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED CORN (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-16","dateLabel":"September 16, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-17","dateLabel":"September 17, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: (V) BBQ BAKED BEANS CARROT/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-18","dateLabel":"September 18, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-21","dateLabel":"September 21, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: GARLICKY GREEN BEANS (PB) August Choice CARROT CRISPS (PB) of Turkey Sub W/ Lettuce ASSORTED FRUIT & Tomato or PB&J & SELECTIONS fruit selection"},{"iso":"2026-09-22","dateLabel":"September 22, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS CHEESE QUESADILLA (V) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-23","dateLabel":"September 23, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-24","dateLabel":"September 24, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY FRENCH FRIES (PB) BROCCOLI/TOMATO CUP (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-25","dateLabel":"September 25, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB) CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-28","dateLabel":"September 28, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: CHICKEN SLIDERS (WG) CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (V) (PB) 18th"},{"iso":"2026-09-29","dateLabel":"September 29, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: QUESO BEEF NACHOS (GF) QUESO BLANCO NACHOS W/ SALSA (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTION"},{"iso":"2026-09-30","dateLabel":"September 30, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS w/ ROLL CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: MIXED VEGETABLES (PB) CELERY/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-01","dateLabel":"October 1, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY TATER TOTS (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-02","dateLabel":"October 2, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHEESY CHICKEN PASTA CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: STEAMED BROCCOLI (PB) (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-05","dateLabel":"October 5, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: CHICKEN SANDWICH CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: MIXED VEGETABLES (PB) (V) (PB) CARROT CRISPS"},{"iso":"2026-10-06","dateLabel":"October 6, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED CORN (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-07","dateLabel":"October 7, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-08","dateLabel":"October 8, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: (V) BBQ BAKED BEANS CARROT/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-09","dateLabel":"October 9, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-12","dateLabel":"October 12, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: GARLICKY GREEN BEANS (PB) August Choice CARROT CRISPS (PB) of Turkey Sub W/ Lettuce ASSORTED FRUIT & Tomato or PB&J & SELECTIONS fruit selection"},{"iso":"2026-10-13","dateLabel":"October 13, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS CHEESE QUESADILLA (V) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-14","dateLabel":"October 14, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-15","dateLabel":"October 15, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY FRENCH FRIES (PB) BROCCOLI/TOMATO CUP (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-16","dateLabel":"October 16, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB) CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-19","dateLabel":"October 19, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: CHICKEN SLIDERS (WG) CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (V) (PB) 18th"},{"iso":"2026-10-20","dateLabel":"October 20, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: QUESO BEEF NACHOS (GF) QUESO BLANCO NACHOS W/ SALSA (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTION"},{"iso":"2026-10-21","dateLabel":"October 21, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS w/ ROLL CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: MIXED VEGETABLES (PB) CELERY/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-22","dateLabel":"October 22, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY TATER TOTS (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-23","dateLabel":"October 23, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHEESY CHICKEN PASTA CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: STEAMED BROCCOLI (PB) (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-26","dateLabel":"October 26, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: CHICKEN SANDWICH CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: MIXED VEGETABLES (PB) (V) (PB) CARROT CRISPS"},{"iso":"2026-10-27","dateLabel":"October 27, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED CORN (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-28","dateLabel":"October 28, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-29","dateLabel":"October 29, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: (V) BBQ BAKED BEANS CARROT/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-30","dateLabel":"October 30, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-02","dateLabel":"November 2, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: GARLICKY GREEN BEANS (PB) August Choice CARROT CRISPS (PB) of Turkey Sub W/ Lettuce ASSORTED FRUIT & Tomato or PB&J & SELECTIONS fruit selection"},{"iso":"2026-11-03","dateLabel":"November 3, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS CHEESE QUESADILLA (V) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-04","dateLabel":"November 4, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-05","dateLabel":"November 5, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY FRENCH FRIES (PB) BROCCOLI/TOMATO CUP (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-06","dateLabel":"November 6, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB) CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-09","dateLabel":"November 9, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: CHICKEN SLIDERS (WG) CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (V) (PB) 18th"},{"iso":"2026-11-10","dateLabel":"November 10, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: QUESO BEEF NACHOS (GF) QUESO BLANCO NACHOS W/ SALSA (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTION"},{"iso":"2026-11-11","dateLabel":"November 11, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS w/ ROLL CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: MIXED VEGETABLES (PB) CELERY/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-12","dateLabel":"November 12, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY TATER TOTS (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-13","dateLabel":"November 13, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHEESY CHICKEN PASTA CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: STEAMED BROCCOLI (PB) (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-16","dateLabel":"November 16, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: CHICKEN SANDWICH CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: MIXED VEGETABLES (PB) (V) (PB) CARROT CRISPS"},{"iso":"2026-11-17","dateLabel":"November 17, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED CORN (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-18","dateLabel":"November 18, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-19","dateLabel":"November 19, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: (V) BBQ BAKED BEANS CARROT/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-20","dateLabel":"November 20, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-23","dateLabel":"November 23, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: GARLICKY GREEN BEANS (PB) August Choice CARROT CRISPS (PB) of Turkey Sub W/ Lettuce ASSORTED FRUIT & Tomato or PB&J & SELECTIONS fruit selection"},{"iso":"2026-11-24","dateLabel":"November 24, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS CHEESE QUESADILLA (V) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-25","dateLabel":"November 25, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-26","dateLabel":"November 26, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY FRENCH FRIES (PB) BROCCOLI/TOMATO CUP (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-27","dateLabel":"November 27, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB) CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-30","dateLabel":"November 30, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: CHICKEN SLIDERS (WG) CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (V) (PB) 18th"},{"iso":"2026-12-01","dateLabel":"December 1, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: QUESO BEEF NACHOS (GF) QUESO BLANCO NACHOS W/ SALSA (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTION"},{"iso":"2026-12-02","dateLabel":"December 2, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS w/ ROLL CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: MIXED VEGETABLES (PB) CELERY/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-03","dateLabel":"December 3, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY TATER TOTS (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-04","dateLabel":"December 4, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHEESY CHICKEN PASTA CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: STEAMED BROCCOLI (PB) (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-07","dateLabel":"December 7, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: CHICKEN SANDWICH CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: MIXED VEGETABLES (PB) (V) (PB) CARROT CRISPS"},{"iso":"2026-12-08","dateLabel":"December 8, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) (GF) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: SEASONED CORN (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-09","dateLabel":"December 9, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-10","dateLabel":"December 10, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: (V) BBQ BAKED BEANS CARROT/TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-11","dateLabel":"December 11, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB (V) (PB) CARROT CRISPS ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-14","dateLabel":"December 14, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: GARLICKY GREEN BEANS (PB) August Choice CARROT CRISPS (PB) of Turkey Sub W/ Lettuce ASSORTED FRUIT & Tomato or PB&J & SELECTIONS fruit selection"},{"iso":"2026-12-15","dateLabel":"December 15, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS CHEESE QUESADILLA (V) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-16","dateLabel":"December 16, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA CSD Lunch Box: PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SNACKABLES BOX SIDES: STEAMED BROCCOLI (PB) CAESAR SALAD SF) ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-17","dateLabel":"December 17, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) CSD Lunch Box: TURKEY SANDWICH YOGURT BOX (V) SIDES: CRISPY FRENCH FRIES (PB) BROCCOLI/TOMATO CUP (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-18","dateLabel":"December 18, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS CSD Lunch Box: PB&J W/ CHEESE STICK (V) PIZZA SNACKABLES CRUNCHER BOX (PB) SIDES: CALIFORNIA BLEND (PB) CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"}],"beaconHill":[{"iso":"2026-08-03","dateLabel":"August 3, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY TATER TOTS (PB) CARROT CRIPS (PB)"},{"iso":"2026-08-04","dateLabel":"August 4, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOLTE CHICKEN NACHOS QUESO NACHOS (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN S C EN T E D P INTO B E A N S ( P B) CHOPPED ROMINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-05","dateLabel":"August 5, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-06","dateLabel":"August 6, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLE DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: STEAMED BROCCOLI (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-07","dateLabel":"August 7, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: (PB) MIXED VEGETABLES CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-10","dateLabel":"August 10, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB)"},{"iso":"2026-08-11","dateLabel":"August 11, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACO BEAN & CHEESE BURRITOS (V) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN SCENTED CORN CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-12","dateLabel":"August 12, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: ROASTED GARLIC BROCCOLI ( PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-13","dateLabel":"August 13, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS (PB) BLACK BEAN BURGERS DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-14","dateLabel":"August 14, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY FRENCH FRIES (V) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-17","dateLabel":"August 17, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ORIENTAL BLEND August"},{"iso":"2026-08-18","dateLabel":"August 18, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) QUESO NACHOS GRANDE (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-19","dateLabel":"August 19, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: HOT HONEY CHICKEN SANDWICH DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-20","dateLabel":"August 20, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: MIXED VEGETABLES (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-21","dateLabel":"August 21, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS W/ROLL DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CORN ON THE COBB (V) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-24","dateLabel":"August 24, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY TATER TOTS (PB) CARROT CRIPS (PB)"},{"iso":"2026-08-25","dateLabel":"August 25, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOLTE CHICKEN NACHOS QUESO NACHOS (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN S C EN T E D P INTO B E A N S ( P B) CHOPPED ROMINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-26","dateLabel":"August 26, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-27","dateLabel":"August 27, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLE DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: STEAMED BROCCOLI (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-28","dateLabel":"August 28, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: (PB) MIXED VEGETABLES CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-31","dateLabel":"August 31, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB)"},{"iso":"2026-09-01","dateLabel":"September 1, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACO BEAN & CHEESE BURRITOS (V) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN SCENTED CORN CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-02","dateLabel":"September 2, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: ROASTED GARLIC BROCCOLI ( PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-03","dateLabel":"September 3, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS (PB) BLACK BEAN BURGERS DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-04","dateLabel":"September 4, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY FRENCH FRIES (V) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-07","dateLabel":"September 7, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ORIENTAL BLEND August"},{"iso":"2026-09-08","dateLabel":"September 8, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) QUESO NACHOS GRANDE (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-09","dateLabel":"September 9, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: HOT HONEY CHICKEN SANDWICH DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-10","dateLabel":"September 10, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: MIXED VEGETABLES (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-11","dateLabel":"September 11, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS W/ROLL DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CORN ON THE COBB (V) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-14","dateLabel":"September 14, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY TATER TOTS (PB) CARROT CRIPS (PB)"},{"iso":"2026-09-15","dateLabel":"September 15, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOLTE CHICKEN NACHOS QUESO NACHOS (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN S C EN T E D P INTO B E A N S ( P B) CHOPPED ROMINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-16","dateLabel":"September 16, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-17","dateLabel":"September 17, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLE DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: STEAMED BROCCOLI (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-18","dateLabel":"September 18, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: (PB) MIXED VEGETABLES CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-21","dateLabel":"September 21, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB)"},{"iso":"2026-09-22","dateLabel":"September 22, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACO BEAN & CHEESE BURRITOS (V) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN SCENTED CORN CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-23","dateLabel":"September 23, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: ROASTED GARLIC BROCCOLI ( PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-24","dateLabel":"September 24, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS (PB) BLACK BEAN BURGERS DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-25","dateLabel":"September 25, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY FRENCH FRIES (V) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-28","dateLabel":"September 28, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ORIENTAL BLEND August"},{"iso":"2026-09-29","dateLabel":"September 29, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) QUESO NACHOS GRANDE (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-30","dateLabel":"September 30, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: HOT HONEY CHICKEN SANDWICH DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-01","dateLabel":"October 1, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: MIXED VEGETABLES (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-02","dateLabel":"October 2, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS W/ROLL DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CORN ON THE COBB (V) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-05","dateLabel":"October 5, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY TATER TOTS (PB) CARROT CRIPS (PB)"},{"iso":"2026-10-06","dateLabel":"October 6, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOLTE CHICKEN NACHOS QUESO NACHOS (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN S C EN T E D P INTO B E A N S ( P B) CHOPPED ROMINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-07","dateLabel":"October 7, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-08","dateLabel":"October 8, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLE DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: STEAMED BROCCOLI (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-09","dateLabel":"October 9, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: (PB) MIXED VEGETABLES CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-12","dateLabel":"October 12, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB)"},{"iso":"2026-10-13","dateLabel":"October 13, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACO BEAN & CHEESE BURRITOS (V) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN SCENTED CORN CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-14","dateLabel":"October 14, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: ROASTED GARLIC BROCCOLI ( PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-15","dateLabel":"October 15, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS (PB) BLACK BEAN BURGERS DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-16","dateLabel":"October 16, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY FRENCH FRIES (V) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-19","dateLabel":"October 19, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ORIENTAL BLEND August"},{"iso":"2026-10-20","dateLabel":"October 20, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) QUESO NACHOS GRANDE (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-21","dateLabel":"October 21, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: HOT HONEY CHICKEN SANDWICH DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-22","dateLabel":"October 22, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: MIXED VEGETABLES (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-23","dateLabel":"October 23, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS W/ROLL DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CORN ON THE COBB (V) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-26","dateLabel":"October 26, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY TATER TOTS (PB) CARROT CRIPS (PB)"},{"iso":"2026-10-27","dateLabel":"October 27, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOLTE CHICKEN NACHOS QUESO NACHOS (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN S C EN T E D P INTO B E A N S ( P B) CHOPPED ROMINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-28","dateLabel":"October 28, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-29","dateLabel":"October 29, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLE DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: STEAMED BROCCOLI (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-30","dateLabel":"October 30, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: (PB) MIXED VEGETABLES CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-02","dateLabel":"November 2, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB)"},{"iso":"2026-11-03","dateLabel":"November 3, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACO BEAN & CHEESE BURRITOS (V) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN SCENTED CORN CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-04","dateLabel":"November 4, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: ROASTED GARLIC BROCCOLI ( PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-05","dateLabel":"November 5, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS (PB) BLACK BEAN BURGERS DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-06","dateLabel":"November 6, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY FRENCH FRIES (V) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-09","dateLabel":"November 9, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ORIENTAL BLEND August"},{"iso":"2026-11-10","dateLabel":"November 10, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) QUESO NACHOS GRANDE (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-11","dateLabel":"November 11, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: HOT HONEY CHICKEN SANDWICH DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-12","dateLabel":"November 12, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: MIXED VEGETABLES (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-13","dateLabel":"November 13, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS W/ROLL DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CORN ON THE COBB (V) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-16","dateLabel":"November 16, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY TATER TOTS (PB) CARROT CRIPS (PB)"},{"iso":"2026-11-17","dateLabel":"November 17, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOLTE CHICKEN NACHOS QUESO NACHOS (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN S C EN T E D P INTO B E A N S ( P B) CHOPPED ROMINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-18","dateLabel":"November 18, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-19","dateLabel":"November 19, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLE DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: STEAMED BROCCOLI (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-20","dateLabel":"November 20, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: (PB) MIXED VEGETABLES CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-23","dateLabel":"November 23, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB)"},{"iso":"2026-11-24","dateLabel":"November 24, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACO BEAN & CHEESE BURRITOS (V) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN SCENTED CORN CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-25","dateLabel":"November 25, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: ROASTED GARLIC BROCCOLI ( PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-26","dateLabel":"November 26, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS (PB) BLACK BEAN BURGERS DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-27","dateLabel":"November 27, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY FRENCH FRIES (V) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-30","dateLabel":"November 30, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ORIENTAL BLEND August"},{"iso":"2026-12-01","dateLabel":"December 1, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) QUESO NACHOS GRANDE (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-02","dateLabel":"December 2, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: HOT HONEY CHICKEN SANDWICH DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-03","dateLabel":"December 3, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: MIXED VEGETABLES (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-04","dateLabel":"December 4, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: CHICKEN NUGGETS W/ROLL DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CORN ON THE COBB (V) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-07","dateLabel":"December 7, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY TATER TOTS (PB) CARROT CRIPS (PB)"},{"iso":"2026-12-08","dateLabel":"December 8, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOLTE CHICKEN NACHOS QUESO NACHOS (V) (GF) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN S C EN T E D P INTO B E A N S ( P B) CHOPPED ROMINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-09","dateLabel":"December 9, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-10","dateLabel":"December 10, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLE DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: STEAMED BROCCOLI (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-11","dateLabel":"December 11, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: (PB) MIXED VEGETABLES CARROT CRISPS (V) (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-14","dateLabel":"December 14, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB)"},{"iso":"2026-12-15","dateLabel":"December 15, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACO BEAN & CHEESE BURRITOS (V) DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES: CUMIN SCENTED CORN CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-16","dateLabel":"December 16, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: ROASTED GARLIC BROCCOLI ( PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-17","dateLabel":"December 17, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS (PB) BLACK BEAN BURGERS DELI SELECTION SNACK PACKS YOGURT BOX (V) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-18","dateLabel":"December 18, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: CORN DOGS DELI SELECTION PB&J W/ CHEESE STICK (V) CRUNCHER BOX (PB) SIDES: CRISPY FRENCH FRIES (V) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"}],"decaturHigh":[{"iso":"2026-08-03","dateLabel":"August 3, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDER ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY TATER TOTS (PB) CARROT CRISPS (PB) ASSORTED FRUIT"},{"iso":"2026-08-04","dateLabel":"August 4, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-05","dateLabel":"August 5, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-06","dateLabel":"August 6, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-07","dateLabel":"August 7, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES CORN ON THE COB (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-10","dateLabel":"August 10, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: HOT DOGS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-11","dateLabel":"August 11, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS BEAN & CHEESE BURRITOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : ROASTED CUMIN SCENTED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-12","dateLabel":"August 12, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES ( PB) TOMATO/ CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-13","dateLabel":"August 13, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-14","dateLabel":"August 14, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLE (PB) SIDE GARDEN SALAD (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-17","dateLabel":"August 17, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: NASHVILLE HOT CHICKEN SANDWICH ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLES (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-18","dateLabel":"August 18, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) (V) QUESO NACHOS GRANDE (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-19","dateLabel":"August 19, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ROASTED GARLIC BROCCOLI (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-20","dateLabel":"August 20, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-21","dateLabel":"August 21, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: SPICY CHICKEN NUGGETS W/ROLL ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-24","dateLabel":"August 24, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDER ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY TATER TOTS (PB) CARROT CRISPS (PB) ASSORTED FRUIT"},{"iso":"2026-08-25","dateLabel":"August 25, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-26","dateLabel":"August 26, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-27","dateLabel":"August 27, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-28","dateLabel":"August 28, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES CORN ON THE COB (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-08-31","dateLabel":"August 31, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: HOT DOGS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-01","dateLabel":"September 1, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS BEAN & CHEESE BURRITOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : ROASTED CUMIN SCENTED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-02","dateLabel":"September 2, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES ( PB) TOMATO/ CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-03","dateLabel":"September 3, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-04","dateLabel":"September 4, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLE (PB) SIDE GARDEN SALAD (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-07","dateLabel":"September 7, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: NASHVILLE HOT CHICKEN SANDWICH ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLES (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-08","dateLabel":"September 8, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) (V) QUESO NACHOS GRANDE (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-09","dateLabel":"September 9, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ROASTED GARLIC BROCCOLI (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-10","dateLabel":"September 10, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-11","dateLabel":"September 11, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: SPICY CHICKEN NUGGETS W/ROLL ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-14","dateLabel":"September 14, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDER ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY TATER TOTS (PB) CARROT CRISPS (PB) ASSORTED FRUIT"},{"iso":"2026-09-15","dateLabel":"September 15, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-16","dateLabel":"September 16, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-17","dateLabel":"September 17, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-18","dateLabel":"September 18, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES CORN ON THE COB (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-21","dateLabel":"September 21, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: HOT DOGS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-22","dateLabel":"September 22, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS BEAN & CHEESE BURRITOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : ROASTED CUMIN SCENTED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-23","dateLabel":"September 23, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES ( PB) TOMATO/ CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-24","dateLabel":"September 24, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-25","dateLabel":"September 25, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLE (PB) SIDE GARDEN SALAD (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-28","dateLabel":"September 28, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: NASHVILLE HOT CHICKEN SANDWICH ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLES (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-29","dateLabel":"September 29, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) (V) QUESO NACHOS GRANDE (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-09-30","dateLabel":"September 30, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ROASTED GARLIC BROCCOLI (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-01","dateLabel":"October 1, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-02","dateLabel":"October 2, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: SPICY CHICKEN NUGGETS W/ROLL ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-05","dateLabel":"October 5, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDER ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY TATER TOTS (PB) CARROT CRISPS (PB) ASSORTED FRUIT"},{"iso":"2026-10-06","dateLabel":"October 6, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-07","dateLabel":"October 7, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-08","dateLabel":"October 8, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-09","dateLabel":"October 9, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES CORN ON THE COB (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-12","dateLabel":"October 12, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: HOT DOGS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-13","dateLabel":"October 13, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS BEAN & CHEESE BURRITOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : ROASTED CUMIN SCENTED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-14","dateLabel":"October 14, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES ( PB) TOMATO/ CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-15","dateLabel":"October 15, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-16","dateLabel":"October 16, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLE (PB) SIDE GARDEN SALAD (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-19","dateLabel":"October 19, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: NASHVILLE HOT CHICKEN SANDWICH ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLES (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-20","dateLabel":"October 20, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) (V) QUESO NACHOS GRANDE (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-21","dateLabel":"October 21, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ROASTED GARLIC BROCCOLI (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-22","dateLabel":"October 22, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-23","dateLabel":"October 23, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: SPICY CHICKEN NUGGETS W/ROLL ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-26","dateLabel":"October 26, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDER ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY TATER TOTS (PB) CARROT CRISPS (PB) ASSORTED FRUIT"},{"iso":"2026-10-27","dateLabel":"October 27, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-28","dateLabel":"October 28, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-29","dateLabel":"October 29, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-10-30","dateLabel":"October 30, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES CORN ON THE COB (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-02","dateLabel":"November 2, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: HOT DOGS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-03","dateLabel":"November 3, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS BEAN & CHEESE BURRITOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : ROASTED CUMIN SCENTED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-04","dateLabel":"November 4, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES ( PB) TOMATO/ CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-05","dateLabel":"November 5, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-06","dateLabel":"November 6, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLE (PB) SIDE GARDEN SALAD (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-09","dateLabel":"November 9, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: NASHVILLE HOT CHICKEN SANDWICH ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLES (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-10","dateLabel":"November 10, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) (V) QUESO NACHOS GRANDE (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-11","dateLabel":"November 11, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ROASTED GARLIC BROCCOLI (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-12","dateLabel":"November 12, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-13","dateLabel":"November 13, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: SPICY CHICKEN NUGGETS W/ROLL ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-16","dateLabel":"November 16, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDER ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY TATER TOTS (PB) CARROT CRISPS (PB) ASSORTED FRUIT"},{"iso":"2026-11-17","dateLabel":"November 17, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-18","dateLabel":"November 18, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-19","dateLabel":"November 19, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-20","dateLabel":"November 20, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES CORN ON THE COB (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-23","dateLabel":"November 23, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: HOT DOGS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-24","dateLabel":"November 24, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS BEAN & CHEESE BURRITOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : ROASTED CUMIN SCENTED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-25","dateLabel":"November 25, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES ( PB) TOMATO/ CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-26","dateLabel":"November 26, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-27","dateLabel":"November 27, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLE (PB) SIDE GARDEN SALAD (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-11-30","dateLabel":"November 30, 2026","day":"Monday","rotation":"MENU 1","menu":"ENTREE: NASHVILLE HOT CHICKEN SANDWICH ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLES (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-01","dateLabel":"December 1, 2026","day":"Tuesday","rotation":"MENU 1","menu":"ENTREE: NACHOS GRANDE W/ BEEF (GF) (V) QUESO NACHOS GRANDE (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : SEASONED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-02","dateLabel":"December 2, 2026","day":"Wednesday","rotation":"MENU 1","menu":"ENTREE: SWEET & SOUR POPCORN CHICKEN W/ RICE ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : ROASTED GARLIC BROCCOLI (PB) CELERY/ TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-03","dateLabel":"December 3, 2026","day":"Thursday","rotation":"MENU 1","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-04","dateLabel":"December 4, 2026","day":"Friday","rotation":"MENU 1","menu":"ENTREE: SPICY CHICKEN NUGGETS W/ROLL ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-07","dateLabel":"December 7, 2026","day":"Monday","rotation":"MENU 2","menu":"ENTREE: BEEF SLIDER ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY TATER TOTS (PB) CARROT CRISPS (PB) ASSORTED FRUIT"},{"iso":"2026-12-08","dateLabel":"December 8, 2026","day":"Tuesday","rotation":"MENU 2","menu":"ENTREE: CHIPOTLE CHICKEN NACHOS QUESO NACHOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CUMIN SCENTED BLACK BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-09","dateLabel":"December 9, 2026","day":"Wednesday","rotation":"MENU 2","menu":"ENTREE: CHEESY CHICKEN PASTA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) TOMATO/CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-10","dateLabel":"December 10, 2026","day":"Thursday","rotation":"MENU 2","menu":"ENTREE: CHICKEN & WAFFLES ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-11","dateLabel":"December 11, 2026","day":"Friday","rotation":"MENU 2","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES CORN ON THE COB (PB) S F) CAESAR SALAD ( ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-14","dateLabel":"December 14, 2026","day":"Monday","rotation":"MENU 3","menu":"ENTREE: HOT DOGS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : GARLICKY GREEN BEANS (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-15","dateLabel":"December 15, 2026","day":"Tuesday","rotation":"MENU 3","menu":"ENTREE: BEEF SOFT TACOS BEAN & CHEESE BURRITOS (V) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : ROASTED CUMIN SCENTED PINTO BEANS (PB) CHOPPED ROMAINE & TOMATO CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-16","dateLabel":"December 16, 2026","day":"Wednesday","rotation":"MENU 3","menu":"ENTREE: HAMBURGERS CHEESEBURGERS BLACK BEAN BURGERS (PB) ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : CRISPY FRENCH FRIES ( PB) TOMATO/ CELERY CUPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-17","dateLabel":"December 17, 2026","day":"Thursday","rotation":"MENU 3","menu":"ENTREE: CHICKEN SLIDERS ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) CRUNCHER BOX (PB) SIDES : CALIFORNIA BLEND (PB) CARROT CRISPS (PB) ASSORTED FRUIT SELECTIONS"},{"iso":"2026-12-18","dateLabel":"December 18, 2026","day":"Friday","rotation":"MENU 3","menu":"ENTREE: ASSORTED PIZZA ENTREE SALAD w/ ROLL PB&J W/CHEESE STICK (V) YOGURT BOX (V) CRUNCHER BOX (PB) SIDES : MIXED VEGETABLE (PB) SIDE GARDEN SALAD (PB) ASSORTED FRUIT SELECTIONS"}]}</script>
+  <script>
+    const BUILTIN = JSON.parse(document.getElementById("builtin-menus").textContent);
+    const BUILTIN_BREAKFAST = BUILTIN.breakfast;
+    const BUILTIN_LUNCH = BUILTIN.lunch;
+    const BUILTIN_BEACON_HILL = BUILTIN.beaconHill;
+    const BUILTIN_DECATUR_HIGH = BUILTIN.decaturHigh;
+    const LS_KEY = "csd-menus-sy26-27-v1";
+    const MENUS_HUB_URL =
+      "https://www.csdecatur.net/our-district-5f/departments/operations/nutrition/menus-special-diets-and-carb-counts";
+    const CODETABS_PROXY = "https://api.codetabs.com/v1/proxy/?quest=";
+    const PDF_URL_FALLBACK_LUNCH =
+      "https://resources.finalsite.net/images/v1784936949/csdecaturnet/wvoh9eecgqqvlkmsyyas/ElementaryMenu26_27.pdf";
+    const PDF_URL_FALLBACK_BREAKFAST =
+      "https://resources.finalsite.net/images/v1784936949/csdecaturnet/ero5nd6slrmjufabp61q/BreakfastMenus26_27.pdf";
+    const PDF_URL_FALLBACK_BEACON_HILL =
+      "https://resources.finalsite.net/images/v1785160079/csdecaturnet/hkzmgxjuhcmii352fbab/BeaconHillsMenuSY26_27.pdf";
+    const PDF_URL_FALLBACK_DECATUR_HIGH =
+      "https://resources.finalsite.net/images/v1784936949/csdecaturnet/bdza3vllbhdw03qoxgm0/DecaturHighMenu26_27.pdf";
+    const PDFJS_VER = "3.11.174";
+    const PDFJS_BASE = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VER}`;
+
+    const ROTATION_WEEKS = [
+      { start: "2026-08-03", menu: 2 },
+      { start: "2026-08-10", menu: 3 },
+      { start: "2026-08-17", menu: 1 },
+      { start: "2026-08-24", menu: 2 },
+      { start: "2026-08-31", menu: 3 },
+      { start: "2026-09-07", menu: 1 },
+      { start: "2026-09-14", menu: 2 },
+      { start: "2026-09-21", menu: 3 },
+      { start: "2026-09-28", menu: 1 },
+      { start: "2026-10-05", menu: 2 },
+      { start: "2026-10-12", menu: 3 },
+      { start: "2026-10-19", menu: 1 },
+      { start: "2026-10-26", menu: 2 },
+      { start: "2026-11-02", menu: 3 },
+      { start: "2026-11-09", menu: 1 },
+      { start: "2026-11-16", menu: 2 },
+      { start: "2026-11-23", menu: 3 },
+      { start: "2026-11-30", menu: 1 },
+      { start: "2026-12-07", menu: 2 },
+      { start: "2026-12-14", menu: 3 },
+    ];
+
+    const DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+    let BREAKFAST_MENU = [];
+    let LUNCH_MENU = [];
+    let BEACON_HILL_MENU = [];
+    let DECATUR_HIGH_MENU = [];
+    let byIsoBreakfast = {};
+    let byIsoLunch = {};
+    let byIsoBeaconHill = {};
+    let byIsoDecaturHigh = {};
+
+    function loadInitialMenus() {
+      try {
+        const s = localStorage.getItem(LS_KEY);
+        if (s) {
+          const parsed = JSON.parse(s);
+          if (
+            parsed &&
+            Array.isArray(parsed.breakfast) &&
+            Array.isArray(parsed.lunch) &&
+            Array.isArray(parsed.beaconHill) &&
+            Array.isArray(parsed.decaturHigh) &&
+            parsed.breakfast.length &&
+            parsed.lunch.length &&
+            parsed.beaconHill.length &&
+            parsed.decaturHigh.length
+          ) {
+            return {
+              breakfast: parsed.breakfast,
+              lunch: parsed.lunch,
+              beaconHill: parsed.beaconHill,
+              decaturHigh: parsed.decaturHigh,
+            };
+          }
+        }
+      } catch (_) {}
+      return {
+        breakfast: BUILTIN_BREAKFAST.slice(),
+        lunch: BUILTIN_LUNCH.slice(),
+        beaconHill: BUILTIN_BEACON_HILL.slice(),
+        decaturHigh: BUILTIN_DECATUR_HIGH.slice(),
+      };
+    }
+
+    function indexMenu(list) {
+      return Object.fromEntries(list.map((e) => [e.iso, e]));
+    }
+
+    function applyMenus(nextBreakfast, nextLunch, nextBeaconHill, nextDecaturHigh) {
+      BREAKFAST_MENU = nextBreakfast;
+      LUNCH_MENU = nextLunch;
+      BEACON_HILL_MENU = nextBeaconHill;
+      DECATUR_HIGH_MENU = nextDecaturHigh;
+      byIsoBreakfast = indexMenu(BREAKFAST_MENU);
+      byIsoLunch = indexMenu(LUNCH_MENU);
+      byIsoBeaconHill = indexMenu(BEACON_HILL_MENU);
+      byIsoDecaturHigh = indexMenu(DECATUR_HIGH_MENU);
+      try {
+        localStorage.setItem(
+          LS_KEY,
+          JSON.stringify({
+            breakfast: nextBreakfast,
+            lunch: nextLunch,
+            beaconHill: nextBeaconHill,
+            decaturHigh: nextDecaturHigh,
+          })
+        );
+      } catch (_) {}
+      render();
+    }
+
+    (function initMenus() {
+      const m = loadInitialMenus();
+      BREAKFAST_MENU = m.breakfast;
+      LUNCH_MENU = m.lunch;
+      BEACON_HILL_MENU = m.beaconHill;
+      DECATUR_HIGH_MENU = m.decaturHigh;
+      byIsoBreakfast = indexMenu(BREAKFAST_MENU);
+      byIsoLunch = indexMenu(LUNCH_MENU);
+      byIsoBeaconHill = indexMenu(BEACON_HILL_MENU);
+      byIsoDecaturHigh = indexMenu(DECATUR_HIGH_MENU);
+    })();
+
+    function localIso(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return y + "-" + m + "-" + day;
+    }
+
+    function parseISODate(iso) {
+      const [y, m, day] = iso.split("-").map(Number);
+      return new Date(y, m - 1, day, 12, 0, 0, 0);
+    }
+
+    function addDays(date, n) {
+      const d = new Date(date.getTime());
+      d.setDate(d.getDate() + n);
+      d.setHours(12, 0, 0, 0);
+      return d;
+    }
+
+    function buildEntriesFromGridsLunch(grid1, grid2, grid3) {
+      const grids = { 1: grid1, 2: grid2, 3: grid3 };
+      const out = [];
+      for (const row of ROTATION_WEEKS) {
+        const g = grids[row.menu];
+        if (!g || g.length !== 5) {
+          throw new Error("Bad grid for MENU " + row.menu + " (lunch)");
+        }
+        const start = parseISODate(row.start);
+        for (let i = 0; i < 5; i++) {
+          const d = addDays(start, i);
+          let menuText = scrubCalendarBleed(g[i]);
+          menuText = menuText.replace(/\bENTREE\s*:/gi, "ENTREE:");
+          menuText = menuText.replace(/\bCSD\s+Lunch\s+Box\b(?!\s*:)/gi, "CSD Lunch Box:");
+          menuText = menuText.replace(/\bSIDES\s*:/gi, "SIDES:");
+          if (!/ENTREE:/i.test(menuText)) {
+            throw new Error("Missing ENTREE for " + localIso(d) + " (lunch)");
+          }
+          out.push({
+            iso: localIso(d),
+            dateLabel: d.toLocaleDateString(undefined, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }),
+            day: DAY_NAMES[i],
+            rotation: "MENU " + row.menu,
+            menu: menuText,
+          });
+        }
+      }
+      if (out.length !== 100) {
+        throw new Error("Expected 100 school days (lunch), got " + out.length);
+      }
+      return out;
+    }
+
+    function buildEntriesFromGridsBreakfast(grid1, grid2, grid3) {
+      const grids = { 1: grid1, 2: grid2, 3: grid3 };
+      const out = [];
+      for (const row of ROTATION_WEEKS) {
+        const g = grids[row.menu];
+        if (!g || g.length !== 5) {
+          throw new Error("Bad grid for MENU " + row.menu + " (breakfast)");
+        }
+        const start = parseISODate(row.start);
+        for (let i = 0; i < 5; i++) {
+          const d = addDays(start, i);
+          let menuText = scrubCalendarBleed(g[i]);
+          menuText = menuText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday)\s+/i, "");
+          if (menuText.length < 12) {
+            throw new Error("Short breakfast text for " + localIso(d) + " (PDF layout may have changed)");
+          }
+          out.push({
+            iso: localIso(d),
+            dateLabel: d.toLocaleDateString(undefined, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }),
+            day: DAY_NAMES[i],
+            rotation: "MENU " + row.menu,
+            menu: menuText,
+          });
+        }
+      }
+      if (out.length !== 100) {
+        throw new Error("Expected 100 school days (breakfast), got " + out.length);
+      }
+      return out;
+    }
+
+    function buildEntriesFromGridsBeaconHill(grid1, grid2, grid3) {
+      const grids = { 1: grid1, 2: grid2, 3: grid3 };
+      const out = [];
+      for (const row of ROTATION_WEEKS) {
+        const g = grids[row.menu];
+        if (!g || g.length !== 5) {
+          throw new Error("Bad grid for MENU " + row.menu + " (Beacon Hill)");
+        }
+        const start = parseISODate(row.start);
+        for (let i = 0; i < 5; i++) {
+          const d = addDays(start, i);
+          let menuText = scrubCalendarBleed(g[i]);
+          menuText = menuText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday)\s+/i, "");
+          if (menuText.length < 20) {
+            throw new Error("Short Beacon Hill text for " + localIso(d) + " (PDF layout may have changed)");
+          }
+          out.push({
+            iso: localIso(d),
+            dateLabel: d.toLocaleDateString(undefined, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }),
+            day: DAY_NAMES[i],
+            rotation: "MENU " + row.menu,
+            menu: menuText,
+          });
+        }
+      }
+      if (out.length !== 100) {
+        throw new Error("Expected 100 school days (Beacon Hill), got " + out.length);
+      }
+      return out;
+    }
+
+    function buildEntriesFromGridsDecaturHigh(grid1, grid2, grid3) {
+      const grids = { 1: grid1, 2: grid2, 3: grid3 };
+      const out = [];
+      for (const row of ROTATION_WEEKS) {
+        const g = grids[row.menu];
+        if (!g || g.length !== 5) {
+          throw new Error("Bad grid for MENU " + row.menu + " (Decatur High)");
+        }
+        const start = parseISODate(row.start);
+        for (let i = 0; i < 5; i++) {
+          const d = addDays(start, i);
+          let menuText = scrubCalendarBleed(g[i]);
+          menuText = menuText.replace(/^(Monday|Tuesday|Wednesday|Thursday|Friday)\s+/i, "");
+          menuText = menuText.replace(/\s*ENTREE:\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY)?\s*$/i, "");
+          menuText = menuText.replace(/\s*ENTREE:\s*$/i, "");
+          if (menuText.length < 20) {
+            throw new Error("Short Decatur High text for " + localIso(d) + " (PDF layout may have changed)");
+          }
+          out.push({
+            iso: localIso(d),
+            dateLabel: d.toLocaleDateString(undefined, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }),
+            day: DAY_NAMES[i],
+            rotation: "MENU " + row.menu,
+            menu: menuText,
+          });
+        }
+      }
+      if (out.length !== 100) {
+        throw new Error("Expected 100 school days (Decatur High), got " + out.length);
+      }
+      return out;
+    }
+
+    function parseMenuSections(text) {
+      const parts = [];
+      const labels = ["ENTREE:", "CSD Lunch Box:", "SIDES:"];
+      let rest = text;
+      for (let i = 0; i < labels.length; i++) {
+        const label = labels[i];
+        const next = labels[i + 1];
+        const idx = rest.indexOf(label);
+        if (idx === -1) continue;
+        const after = rest.slice(idx + label.length).trim();
+        let body;
+        if (next) {
+          const ni = after.indexOf(next);
+          body = ni === -1 ? after : after.slice(0, ni).trim();
+          rest = ni === -1 ? "" : next + after.slice(ni + next.length);
+        } else {
+          body = after;
+        }
+        parts.push({ label: label.replace(":", ""), body });
+      }
+      if (parts.length === 0) return null;
+      return parts;
+    }
+
+    /**
+     * Beacon Hill PDF columns read top-to-bottom as: fruit/salad, SIDES:, deli line, DELI SELECTION, entree.
+     * Present as Entree, Deli selection, Sides.
+     */
+    function splitBeaconHillPostDeliIntoDeliSuffixAndEntree(afterDeli) {
+      const s = afterDeli.replace(/\s+/g, " ").trim();
+      if (!s) return { deliSuffix: "", entree: "" };
+      const re = /\)\s+(?=[A-Z])/g;
+      let lastAt = -1;
+      let m;
+      while ((m = re.exec(s)) !== null) lastAt = m.index;
+      if (lastAt === -1) return { deliSuffix: "", entree: s };
+      const sp = s.indexOf(" ", lastAt);
+      if (sp === -1) return { deliSuffix: "", entree: s };
+      return {
+        deliSuffix: s.slice(0, sp + 1).trim(),
+        entree: s.slice(sp + 1).trim(),
+      };
+    }
+
+    function parseBeaconHillMenuSections(text) {
+      let t = scrubCalendarBleed(text);
+      t = t.replace(/\bENTREE\s*:/gi, "ENTREE:");
+      t = t.replace(/\bSIDES\s*:/gi, "SIDES:");
+      t = t.replace(/\bDELI\s+SELECTION\b/gi, "DELI SELECTION");
+      const ei = t.search(/\bENTREE:/i);
+      const di = t.search(/\bDELI SELECTION\b/i);
+      const si = t.search(/\bSIDES:/i);
+      // SY 26/27 layout: ENTREE … DELI SELECTION … SIDES
+      if (ei !== -1 && di !== -1 && si !== -1 && ei < di && di < si) {
+        const entree = t.slice(ei + "ENTREE:".length, di).trim();
+        const deli = t.slice(di + "DELI SELECTION".length, si).trim();
+        const sides = t.slice(si + "SIDES:".length).trim();
+        return [
+          { label: "Entree", body: entree },
+          { label: "Deli selection", body: deli },
+          { label: "Sides", body: sides },
+        ];
+      }
+      // Older layout: fruit/sides … SIDES: … DELI SELECTION … entree
+      const low = t.toLowerCase();
+      const dKey = "deli selection";
+      const dli = low.lastIndexOf(dKey);
+      if (dli === -1) return null;
+      const afterDeli = t.slice(dli + dKey.length).trim();
+      const beforeDeli = t.slice(0, dli).trim();
+      const sm = beforeDeli.match(/\bSIDES\s*:/i);
+      if (!sm) return null;
+      const postSides = beforeDeli.slice(sm.index + sm[0].length).trim();
+      const preSides = beforeDeli.slice(0, sm.index).trim();
+      const { deliSuffix, entree } = splitBeaconHillPostDeliIntoDeliSuffixAndEntree(afterDeli);
+      const deliMerged = [postSides, deliSuffix].filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
+      return [
+        { label: "Entree", body: entree },
+        { label: "Deli selection", body: deliMerged },
+        { label: "Sides", body: preSides },
+      ];
+    }
+
+    /**
+     * Decatur High columns: selections / fruit / veg, then SIDES (often “: SIDES”), then alternates
+     * through ENTREE SALAD w/ ROLL, then main entree(s), then ENTREE: (optional weekday).
+     * Present like Beacon: Entree, Deli selection, Sides.
+     */
+    function parseDecaturHighMenuSections(text) {
+      let t = scrubCalendarBleed(text);
+      t = t.replace(/\((PB)\s+SIDES\b/gi, "($1) : SIDES ").replace(/\s+/g, " ").trim();
+      t = t.replace(/\bENTREE\s*:/gi, "ENTREE:");
+      t = t.replace(/\bSIDES\s*:/gi, "SIDES:");
+      // SY 26/27 layout: ENTREE … ENTREE SALAD w/ ROLL … SIDES
+      const ei = t.search(/\bENTREE:/i);
+      const ri = t.search(/\bENTREE\s+SALAD\s+w\/\s*ROLL\b/i);
+      let si = t.search(/\bSIDES:/i);
+      if (si === -1) {
+        const bare = t.match(/\bSIDES\s+(?=ASSORTED|CRUNCHER|CRISPY|CUMIN|GARLICKY|CALIFORNIA|CORN|CARROT|STEAMED|MIXED|CAESAR)/i);
+        if (bare) si = bare.index;
+      }
+      if (ei !== -1 && ri !== -1 && si !== -1 && ei < ri && ri < si) {
+        const rollMatch = t.slice(ri).match(/\bENTREE\s+SALAD\s+w\/\s*ROLL\b/i);
+        const rollLen = rollMatch ? rollMatch[0].length : 0;
+        let entree = t.slice(ei + "ENTREE:".length, ri).trim();
+        const deli = t.slice(ri + rollLen, si).trim();
+        let sides = t.slice(si).replace(/^SIDES:?\s*/i, "").trim();
+        return [
+          { label: "Entree", body: entree },
+          { label: "Deli selection", body: deli },
+          { label: "Sides", body: sides },
+        ];
+      }
+      // Older layout: sides first, then SIDES, then deli through ENTREE SALAD, then entree
+      let preSides = "";
+      let postSides = "";
+      const mColonSides = t.match(/\s*:\s*SIDES\s+/i);
+      if (mColonSides) {
+        preSides = t.slice(0, mColonSides.index).trim();
+        postSides = t.slice(mColonSides.index + mColonSides[0].length).trim();
+      } else {
+        const mSidesColon = t.match(/\bSIDES\s*:\s+/i);
+        if (mSidesColon) {
+          preSides = t.slice(0, mSidesColon.index).trim();
+          postSides = t.slice(mSidesColon.index + mSidesColon[0].length).trim();
+        } else {
+          const mBareSides = t.match(
+            /\bSIDES\s+(?=ASSORTED PIZZA|ASSORTED|CRUNCHER|CHEESE PIZZA|YOGURT|PB&J)/i
+          );
+          if (!mBareSides) return null;
+          preSides = t.slice(0, mBareSides.index).trim();
+          postSides = t.slice(mBareSides.index + mBareSides[0].length).trim();
+        }
+      }
+      const mRoll = postSides.match(/\bENTREE\s+SALAD\s+w\/\s*ROLL\b/i);
+      if (!mRoll) return null;
+      const deli = postSides.slice(0, mRoll.index).trim();
+      let entree = postSides.slice(mRoll.index + mRoll[0].length).trim();
+      entree = entree.replace(/\s*ENTREE:\s*(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY)?\s*$/i, "");
+      entree = entree.replace(/\s*ENTREE:\s*$/i, "");
+      return [
+        { label: "Entree", body: entree },
+        { label: "Deli selection", body: deli },
+        { label: "Sides", body: preSides },
+      ];
+    }
+
+    let pdfJsPromise = null;
+    function ensurePdfJs() {
+      if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/pdf.worker.min.js`;
+        return Promise.resolve();
+      }
+      if (pdfJsPromise) return pdfJsPromise;
+      pdfJsPromise = new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = `${PDFJS_BASE}/pdf.min.js`;
+        s.onload = () => {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = `${PDFJS_BASE}/pdf.worker.min.js`;
+          resolve();
+        };
+        s.onerror = () => reject(new Error("Could not load PDF.js from CDN"));
+        document.head.appendChild(s);
+      });
+      return pdfJsPromise;
+    }
+
+    function scrubCalendarBleed(text) {
+      let t = String(text || "").replace(/\s+/g, " ").trim();
+      t = t.replace(/\bWEEK\s+OF:\s*/gi, " ");
+      t = t.replace(
+        /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sept(?:ember)?|Sep|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\.?\s*\d{1,2}(?:st|nd|rd|th)?\s*[-–]\s*(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sept(?:ember)?|Sep|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)?\.?\s*\d{1,2}(?:st|nd|rd|th)?/gi,
+        " "
+      );
+      t = t.replace(/\bEarly Release Days are(?:\s+August)?\b/gi, " ");
+      t = t.replace(/\b26th,\s+October\s+28th,\s*&\s*December\s+18th\b/gi, " ");
+      t = t.replace(/\bOctober\s+28th,\s*&\s*December\s+18th\b/gi, " ");
+      t = t.replace(/\bChoice of Turkey Sub\b[\s\S]*?(?:fruit selection)/gi, " ");
+      t = t.replace(/\bLettuce & Tomato or PB&J &\b/gi, " ");
+      t = t.replace(/\bCheesestick with Veggies and\b/gi, " ");
+      t = t.replace(/\b18th\b(?!\s*[-–])/g, " ");
+      return t.replace(/\s+/g, " ").trim();
+    }
+
+    function extractDayColumnsFromPieces(pieces) {
+      if (pieces.length < 20) throw new Error("Too little text on page");
+      const DAYS = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"];
+      const headers = [];
+      for (const p of pieces) {
+        const t = p.str.replace(/\s+/g, "").toUpperCase();
+        const di = DAYS.indexOf(t);
+        if (di >= 0) headers.push({ day: di, x: p.x, y: p.y });
+      }
+
+      const ysAll = pieces.map((p) => p.y);
+      const yLo = Math.min(...ysAll);
+      const yHi = Math.max(...ysAll);
+
+      let row = null;
+      if (headers.length >= 5) {
+        headers.sort((a, b) => a.y - b.y || a.day - b.day);
+        for (const seed of headers) {
+          const near = headers.filter((h) => Math.abs(h.y - seed.y) < 12);
+          const byDay = new Map();
+          for (const h of near) if (!byDay.has(h.day)) byDay.set(h.day, h);
+          if (byDay.size === 5) {
+            row = [0, 1, 2, 3, 4].map((d) => byDay.get(d));
+            break;
+          }
+        }
+        // Prefer header row nearer the top of the page (works for both y directions)
+        if (row) {
+          const avg = row.reduce((s, h) => s + h.y, 0) / 5;
+          const distLo = Math.abs(avg - yLo);
+          const distHi = Math.abs(avg - yHi);
+          // If this row is nearer the bottom extreme, try finding a row nearer the other extreme
+          if (distHi < distLo) {
+            headers.sort((a, b) => b.y - a.y || a.day - b.day);
+            for (const seed of headers) {
+              const near = headers.filter((h) => Math.abs(h.y - seed.y) < 12);
+              const byDay = new Map();
+              for (const h of near) if (!byDay.has(h.day)) byDay.set(h.day, h);
+              if (byDay.size === 5) {
+                const cand = [0, 1, 2, 3, 4].map((d) => byDay.get(d));
+                const cavg = cand.reduce((s, h) => s + h.y, 0) / 5;
+                if (Math.abs(cavg - yLo) <= Math.abs(cavg - yHi) || Math.abs(cavg - yHi) < distHi) {
+                  // keep cand if closer to a page edge that looks like top: pick nearer min-distance-to-either with preference for smaller span from content
+                  row = cand;
+                }
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      if (row) {
+        row.sort((a, b) => a.x - b.x);
+        const centers = row.map((h) => h.x);
+        const bounds = [-Infinity];
+        for (let i = 0; i < 4; i++) bounds.push((centers[i] + centers[i + 1]) / 2);
+        bounds.push(Infinity);
+        const headerY = row.reduce((s, h) => s + h.y, 0) / 5;
+        const yDown = Math.abs(headerY - yLo) <= Math.abs(headerY - yHi);
+        let bandLo, bandHi;
+        if (yDown) {
+          bandLo = headerY + 2;
+          bandHi = yLo + (yHi - yLo) * 0.92;
+        } else {
+          bandHi = headerY - 2;
+          bandLo = yLo + (yHi - yLo) * 0.08;
+        }
+        const cols = [[], [], [], [], []];
+        for (const p of pieces) {
+          if (p.y < bandLo || p.y > bandHi) continue;
+          let idx = 0;
+          while (idx < 4 && p.x >= bounds[idx + 1]) idx++;
+          cols[idx].push(p);
+        }
+        return cols.map((col) => {
+          col.sort((a, b) => (yDown ? a.y - b.y : b.y - a.y) || a.x - b.x);
+          return scrubCalendarBleed(col.map((c) => c.str).join(" "));
+        });
+      }
+
+      // Legacy fallback: equal-width day columns in a vertical band
+      const bandLo = yLo + (yHi - yLo) * 0.05;
+      const bandHi = yLo + (yHi - yLo) * 0.9;
+      const filtered = pieces.filter((p) => p.y >= bandLo && p.y <= bandHi);
+      const xs = filtered.map((p) => p.x);
+      const minX = Math.min(...xs);
+      const maxX = Math.max(...xs);
+      const weekCut = minX + (maxX - minX) * 0.14;
+      const dayPieces = filtered.filter((p) => p.x >= weekCut);
+      if (dayPieces.length < 30) throw new Error("Could not isolate day columns");
+      const dx = dayPieces.map((p) => p.x);
+      const dmin = Math.min(...dx);
+      const dmax = Math.max(...dx);
+      const colW = (dmax - dmin) / 5;
+      const cols = [[], [], [], [], []];
+      for (const p of dayPieces) {
+        let idx = Math.floor((p.x - dmin) / colW);
+        if (idx > 4) idx = 4;
+        if (idx < 0) idx = 0;
+        cols[idx].push(p);
+      }
+      return cols.map((col) => {
+        col.sort((a, b) => a.y - b.y || a.x - b.x);
+        let text = scrubCalendarBleed(col.map((c) => c.str).join(" "));
+        const ei = text.search(/\bENTREE\b/i);
+        if (ei > 0) text = text.slice(ei);
+        return text;
+      });
+    }
+
+    async function extractDayColumnsFromPage(page) {
+      const viewport = page.getViewport({ scale: 1 });
+      const content = await page.getTextContent();
+      const pieces = [];
+      for (const it of content.items) {
+        if (!it.str || !it.str.trim()) continue;
+        const m = pdfjsLib.Util.transform(viewport.transform, it.transform);
+        pieces.push({ x: m[4], y: m[5], str: it.str });
+      }
+      return extractDayColumnsFromPieces(pieces);
+    }
+
+    async function parseLunchPdf(arrayBuffer) {
+      await ensurePdfJs();
+      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      if (pdf.numPages < 3) throw new Error("Lunch PDF has fewer than 3 pages");
+
+      const menus = {};
+      for (let pi = 1; pi <= pdf.numPages; pi++) {
+        const page = await pdf.getPage(pi);
+        const tc = await page.getTextContent();
+        const joined = tc.items.map((i) => i.str).join(" ");
+        const mm = joined.match(/MENU\s*(\d)/);
+        if (!mm) continue;
+        const id = parseInt(mm[1], 10);
+        if (id < 1 || id > 3) continue;
+        const cols = await extractDayColumnsFromPage(page);
+        if (cols.length !== 5) throw new Error("Expected 5 day columns (lunch)");
+        if (!cols.every((c) => /ENTREE/i.test(c))) {
+          throw new Error("A lunch day column did not contain ENTREE (layout may have changed)");
+        }
+        menus[id] = cols;
+      }
+      if (!menus[1] || !menus[2] || !menus[3]) {
+        throw new Error("Could not find MENU 1, 2, and 3 in the lunch PDF");
+      }
+      return buildEntriesFromGridsLunch(menus[1], menus[2], menus[3]);
+    }
+
+    async function parseBreakfastPdf(arrayBuffer) {
+      await ensurePdfJs();
+      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      if (pdf.numPages < 3) throw new Error("Breakfast PDF has fewer than 3 pages");
+
+      const menus = {};
+      for (let pi = 1; pi <= pdf.numPages; pi++) {
+        const page = await pdf.getPage(pi);
+        const tc = await page.getTextContent();
+        const joined = tc.items.map((i) => i.str).join(" ");
+        const mm = joined.match(/MENU\s*(\d)/i);
+        if (!mm) continue;
+        const id = parseInt(mm[1], 10);
+        if (id < 1 || id > 3) continue;
+        const cols = await extractDayColumnsFromPage(page);
+        if (cols.length !== 5) throw new Error("Expected 5 day columns (breakfast)");
+        if (!cols.every((c) => c.length > 12)) {
+          throw new Error("A breakfast day column looks too short (layout may have changed)");
+        }
+        menus[id] = cols;
+      }
+      if (!menus[1] || !menus[2] || !menus[3]) {
+        throw new Error("Could not find MENU 1, 2, and 3 in the breakfast PDF");
+      }
+      return buildEntriesFromGridsBreakfast(menus[1], menus[2], menus[3]);
+    }
+
+    async function parseBeaconHillPdf(arrayBuffer) {
+      await ensurePdfJs();
+      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      if (pdf.numPages < 3) throw new Error("Beacon Hill Middle PDF has fewer than 3 pages");
+
+      const menus = {};
+      for (let pi = 1; pi <= pdf.numPages; pi++) {
+        const page = await pdf.getPage(pi);
+        const tc = await page.getTextContent();
+        const joined = tc.items.map((i) => i.str).join(" ");
+        const mm = joined.match(/MENU\s*(\d)/i);
+        if (!mm) continue;
+        const id = parseInt(mm[1], 10);
+        if (id < 1 || id > 3) continue;
+        const cols = await extractDayColumnsFromPage(page);
+        if (cols.length !== 5) throw new Error("Expected 5 day columns (Beacon Hill)");
+        if (!cols.every((c) => /SIDES/i.test(c) && c.length > 30)) {
+          throw new Error(
+            "A Beacon Hill day column did not look like a menu column (layout may have changed)"
+          );
+        }
+        menus[id] = cols;
+      }
+      if (!menus[1] || !menus[2] || !menus[3]) {
+        throw new Error("Could not find MENU 1, 2, and 3 in the Beacon Hill Middle PDF");
+      }
+      return buildEntriesFromGridsBeaconHill(menus[1], menus[2], menus[3]);
+    }
+
+    async function parseDecaturHighPdf(arrayBuffer) {
+      await ensurePdfJs();
+      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+      if (pdf.numPages < 3) throw new Error("Decatur High PDF has fewer than 3 pages");
+
+      const menus = {};
+      for (let pi = 1; pi <= pdf.numPages; pi++) {
+        const page = await pdf.getPage(pi);
+        const tc = await page.getTextContent();
+        const joined = tc.items.map((i) => i.str).join(" ");
+        const mm = joined.match(/\b([123])\s+MONDAY\b/i);
+        if (!mm) continue;
+        const id = parseInt(mm[1], 10);
+        if (id < 1 || id > 3) continue;
+        const cols = await extractDayColumnsFromPage(page);
+        if (cols.length !== 5) throw new Error("Expected 5 day columns (Decatur High)");
+        if (!cols.every((c) => /SIDES/i.test(c) && /ENTREE/i.test(c) && c.length > 30)) {
+          throw new Error(
+            "A Decatur High day column did not look like a menu column (layout may have changed)"
+          );
+        }
+        menus[id] = cols;
+      }
+      if (!menus[1] || !menus[2] || !menus[3]) {
+        throw new Error("Could not find rotation weeks 1, 2, and 3 (1 MONDAY …) in the Decatur High PDF");
+      }
+      return buildEntriesFromGridsDecaturHigh(menus[1], menus[2], menus[3]);
+    }
+
+    function setRefreshStatus(msg, isError) {
+      const el = document.getElementById("refreshStatus");
+      el.textContent = msg || "";
+      el.classList.toggle("error", !!isError);
+    }
+
+    async function fetchHtmlThroughProxies(url) {
+      try {
+        const r = await fetch(url, { credentials: "omit", mode: "cors", cache: "no-store" });
+        if (r.ok) return await r.text();
+      } catch (_) {}
+      const r2 = await fetch(CODETABS_PROXY + encodeURIComponent(url), {
+        credentials: "omit",
+        mode: "cors",
+        cache: "no-store",
+      });
+      if (!r2.ok) throw new Error("Menus page unreachable (" + r2.status + ")");
+      return await r2.text();
+    }
+
+    function parseElementaryMenuResourceUrl(html, baseUrl) {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      for (const a of doc.querySelectorAll("a[href]")) {
+        const label = (a.textContent || "")
+          .replace(/\s+/g, " ")
+          .replace(/\u2013|\u2014/g, "-")
+          .trim();
+        if (!label.startsWith("Elementary (K-5) Menu")) continue;
+        const href = a.getAttribute("href");
+        if (!href || !href.includes("/fs/resource-manager/view/")) continue;
+        return new URL(href, baseUrl).href;
+      }
+      throw new Error('No link found whose label starts with "Elementary (K-5) Menu"');
+    }
+
+    function parseBreakfastMenuResourceUrl(html, baseUrl) {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      for (const a of doc.querySelectorAll("a[href]")) {
+        const label = (a.textContent || "")
+          .replace(/\s+/g, " ")
+          .replace(/\u2013|\u2014/g, "-")
+          .trim();
+        if (!label.startsWith("Breakfast Menu")) continue;
+        const href = a.getAttribute("href");
+        if (!href || !href.includes("/fs/resource-manager/view/")) continue;
+        return new URL(href, baseUrl).href;
+      }
+      throw new Error('No link found whose label starts with "Breakfast Menu"');
+    }
+
+    function parseBeaconHillMenuResourceUrl(html, baseUrl) {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      for (const a of doc.querySelectorAll("a[href]")) {
+        const label = (a.textContent || "")
+          .replace(/\s+/g, " ")
+          .replace(/\u2013|\u2014/g, "-")
+          .trim();
+        if (!label.startsWith("Beacon Hill Middle Menu")) continue;
+        const href = a.getAttribute("href");
+        if (!href || !href.includes("/fs/resource-manager/view/")) continue;
+        return new URL(href, baseUrl).href;
+      }
+      throw new Error('No link found whose label starts with "Beacon Hill Middle Menu"');
+    }
+
+    function parseDecaturHighMenuResourceUrl(html, baseUrl) {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      for (const a of doc.querySelectorAll("a[href]")) {
+        const label = (a.textContent || "")
+          .replace(/\s+/g, " ")
+          .replace(/\u2013|\u2014/g, "-")
+          .trim();
+        if (!label.startsWith("Decatur High Menu")) continue;
+        const href = a.getAttribute("href");
+        if (!href || !href.includes("/fs/resource-manager/view/")) continue;
+        return new URL(href, baseUrl).href;
+      }
+      throw new Error('No link found whose label starts with "Decatur High Menu"');
+    }
+
+    function looksLikePdf(buf) {
+      if (!buf || buf.byteLength < 5) return false;
+      const u8 = new Uint8Array(buf.slice(0, 5));
+      return String.fromCharCode(u8[0], u8[1], u8[2], u8[3], u8[4]) === "%PDF-";
+    }
+
+    async function fetchPdfBytes(url) {
+      try {
+        const r = await fetch(url, { mode: "cors", cache: "no-store" });
+        if (r.ok) {
+          const buf = await r.arrayBuffer();
+          if (looksLikePdf(buf)) return { buf, via: "direct" };
+        }
+      } catch (_) {}
+      const r2 = await fetch(CODETABS_PROXY + encodeURIComponent(url), {
+        mode: "cors",
+        cache: "no-store",
+      });
+      if (!r2.ok) throw new Error("PDF download failed (" + r2.status + ")");
+      const buf2 = await r2.arrayBuffer();
+      if (!looksLikePdf(buf2)) throw new Error("Downloaded file is not a PDF");
+      return { buf: buf2, via: "proxy" };
+    }
+
+    async function refreshFromDistrict() {
+      const btn = document.getElementById("btnRefresh");
+      btn.disabled = true;
+      setRefreshStatus(
+        "Loading nutrition menus page once, then breakfast, elementary lunch, Beacon Hill Middle, and Decatur High PDFs…",
+        false
+      );
+      try {
+        let hubHtml = null;
+        let lunchViewUrl = null;
+        let breakfastViewUrl = null;
+        let beaconHillViewUrl = null;
+        let decaturHighViewUrl = null;
+        try {
+          hubHtml = await fetchHtmlThroughProxies(MENUS_HUB_URL);
+          try {
+            lunchViewUrl = parseElementaryMenuResourceUrl(hubHtml, MENUS_HUB_URL);
+          } catch (e) {
+            console.warn("Lunch link:", e);
+          }
+          try {
+            breakfastViewUrl = parseBreakfastMenuResourceUrl(hubHtml, MENUS_HUB_URL);
+          } catch (e) {
+            console.warn("Breakfast link:", e);
+          }
+          try {
+            beaconHillViewUrl = parseBeaconHillMenuResourceUrl(hubHtml, MENUS_HUB_URL);
+          } catch (e) {
+            console.warn("Beacon Hill link:", e);
+          }
+          try {
+            decaturHighViewUrl = parseDecaturHighMenuResourceUrl(hubHtml, MENUS_HUB_URL);
+          } catch (e) {
+            console.warn("Decatur High link:", e);
+          }
+        } catch (e) {
+          console.warn("Hub HTML:", e);
+        }
+
+        async function resolveOne(viewUrl, fallbackUrl) {
+          if (viewUrl) {
+            try {
+              const r = await fetchPdfBytes(viewUrl);
+              return { buf: r.buf, pdfSource: "district-link", via: r.via, viewUrl };
+            } catch (e2) {
+              console.warn("PDF via district resource URL:", e2);
+            }
+          }
+          const r3 = await fetchPdfBytes(fallbackUrl);
+          return {
+            buf: r3.buf,
+            pdfSource: viewUrl ? "fallback-after-link" : "fallback",
+            via: r3.via,
+            viewUrl,
+          };
+        }
+
+        setRefreshStatus("Downloading PDFs…", false);
+        const [lunchResolved, breakfastResolved, beaconResolved, decaturHighResolved] = await Promise.all([
+          resolveOne(lunchViewUrl, PDF_URL_FALLBACK_LUNCH),
+          resolveOne(breakfastViewUrl, PDF_URL_FALLBACK_BREAKFAST),
+          resolveOne(beaconHillViewUrl, PDF_URL_FALLBACK_BEACON_HILL),
+          resolveOne(decaturHighViewUrl, PDF_URL_FALLBACK_DECATUR_HIGH),
+        ]);
+
+        setRefreshStatus("Reading PDFs…", false);
+        const [lunchEntries, breakfastEntries, beaconEntries, decaturHighEntries] = await Promise.all([
+          parseLunchPdf(lunchResolved.buf),
+          parseBreakfastPdf(breakfastResolved.buf),
+          parseBeaconHillPdf(beaconResolved.buf),
+          parseDecaturHighPdf(decaturHighResolved.buf),
+        ]);
+
+        applyMenus(breakfastEntries, lunchEntries, beaconEntries, decaturHighEntries);
+
+        const part = (name, res) =>
+          name +
+          ": " +
+          (res.pdfSource === "district-link"
+            ? "district link" + (res.via === "proxy" ? " (proxy)" : "")
+            : "backup URL" + (res.viewUrl ? "" : " (no hub link)")) +
+          ".";
+
+        setRefreshStatus(
+          "Menus updated. " +
+            part("Breakfast", breakfastResolved) +
+            " " +
+            part("Lunch", lunchResolved) +
+            " " +
+            part("Beacon Hill", beaconResolved) +
+            " " +
+            part("Decatur High", decaturHighResolved),
+          false
+        );
+      } catch (e) {
+        console.error(e);
+        setRefreshStatus(
+          e.message ||
+            "Refresh failed. If the district redesigned a PDF, use “Use built-in data” or try again later.",
+          true
+        );
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function resetToBuiltin() {
+      try {
+        localStorage.removeItem(LS_KEY);
+      } catch (_) {}
+      BREAKFAST_MENU = BUILTIN_BREAKFAST.slice();
+      LUNCH_MENU = BUILTIN_LUNCH.slice();
+      BEACON_HILL_MENU = BUILTIN_BEACON_HILL.slice();
+      DECATUR_HIGH_MENU = BUILTIN_DECATUR_HIGH.slice();
+      byIsoBreakfast = indexMenu(BREAKFAST_MENU);
+      byIsoLunch = indexMenu(LUNCH_MENU);
+      byIsoBeaconHill = indexMenu(BEACON_HILL_MENU);
+      byIsoDecaturHigh = indexMenu(DECATUR_HIGH_MENU);
+      setRefreshStatus(
+        "Showing built-in breakfast, elementary lunch, Beacon Hill Middle, and Decatur High data from this file.",
+        false
+      );
+      render();
+    }
+
+    let cursor = new Date();
+    cursor.setHours(12, 0, 0, 0);
+
+    function todayNoon() {
+      const t = new Date();
+      t.setHours(12, 0, 0, 0);
+      return t;
+    }
+
+    function latestKnownMenuIso() {
+      let latest = "";
+      for (const list of [BREAKFAST_MENU, LUNCH_MENU, BEACON_HILL_MENU, DECATUR_HIGH_MENU]) {
+        for (const e of list) {
+          if (e && e.iso && e.iso > latest) latest = e.iso;
+        }
+      }
+      return latest;
+    }
+
+    function menusAreStaleForToday() {
+      const latest = latestKnownMenuIso();
+      if (!latest) return true;
+      return localIso(todayNoon()) > latest;
+    }
+
+    /** District PDFs are often all caps; soften for display without changing stored strings. */
+    function softenAllCapsMenuBody(text) {
+      if (!text || typeof text !== "string") return text;
+      const t = text.replace(/\s+/g, " ").trim();
+      const letters = t.replace(/[^A-Za-z]/g, "");
+      if (letters.length < 2) return t;
+      const upper = (letters.match(/[A-Z]/g) || []).length;
+      if (upper / letters.length < 0.55) return t;
+      return t.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase());
+    }
+
+    function render() {
+      const iso = localIso(cursor);
+      const bEnt = byIsoBreakfast[iso];
+      const lEnt = byIsoLunch[iso];
+      const bhEnt = byIsoBeaconHill[iso];
+      const dhEnt = byIsoDecaturHigh[iso];
+      const dateLine = document.getElementById("dateLine");
+      const dayLine = document.getElementById("dayLine");
+      const content = document.getElementById("content");
+      const todayPill = document.getElementById("todayPill");
+      const jumpWrap = document.getElementById("jumpTodayWrap");
+
+      dateLine.textContent = cursor.toLocaleDateString(undefined, {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+      dayLine.textContent = cursor.toLocaleDateString(undefined, { weekday: "long" });
+
+      const isToday = localIso(cursor) === localIso(todayNoon());
+      todayPill.hidden = !isToday;
+      jumpWrap.hidden = isToday;
+
+      content.innerHTML = "";
+
+      if (bEnt || lEnt || bhEnt || dhEnt) {
+        const stack = document.createElement("div");
+        stack.className = "menu-stack";
+
+        if (bEnt) {
+          const meal = document.createElement("div");
+          meal.className = "meal-block";
+          const title = document.createElement("div");
+          title.className = "meal-block-title";
+          title.textContent = "Breakfast";
+          const body = document.createElement("div");
+          body.className = "section-body breakfast-plain";
+          body.textContent = softenAllCapsMenuBody(bEnt.menu);
+          meal.appendChild(title);
+          meal.appendChild(body);
+          stack.appendChild(meal);
+        }
+
+        if (lEnt) {
+          if (bEnt) {
+            const div = document.createElement("div");
+            div.className = "menu-divider";
+            div.setAttribute("role", "presentation");
+            stack.appendChild(div);
+          }
+          const meal = document.createElement("div");
+          meal.className = "meal-block";
+          const title = document.createElement("div");
+          title.className = "meal-block-title";
+          title.textContent = "Elementary Lunch";
+          meal.appendChild(title);
+          const secs = parseMenuSections(lEnt.menu);
+          if (secs) {
+            const wrap = document.createElement("div");
+            wrap.className = "sections";
+            for (const s of secs) {
+              const block = document.createElement("div");
+              block.className = "section";
+              const lab = document.createElement("div");
+              lab.className = "section-label";
+              lab.textContent = s.label;
+              const bod = document.createElement("div");
+              bod.className = "section-body";
+              bod.textContent = s.body;
+              block.appendChild(lab);
+              block.appendChild(bod);
+              wrap.appendChild(block);
+            }
+            meal.appendChild(wrap);
+          } else {
+            const p = document.createElement("p");
+            p.className = "section-body";
+            p.style.textAlign = "center";
+            p.textContent = lEnt.menu;
+            meal.appendChild(p);
+          }
+          stack.appendChild(meal);
+        }
+
+        if (bhEnt) {
+          if (bEnt || lEnt) {
+            const div2 = document.createElement("div");
+            div2.className = "menu-divider";
+            div2.setAttribute("role", "presentation");
+            stack.appendChild(div2);
+          }
+          const mealBh = document.createElement("div");
+          mealBh.className = "meal-block";
+          const titleBh = document.createElement("div");
+          titleBh.className = "meal-block-title";
+          titleBh.textContent = "Beacon Hill Middle";
+          mealBh.appendChild(titleBh);
+          const bhSecs = parseBeaconHillMenuSections(bhEnt.menu);
+          if (bhSecs) {
+            const wrapBh = document.createElement("div");
+            wrapBh.className = "sections";
+            for (const s of bhSecs) {
+              const block = document.createElement("div");
+              block.className = "section";
+              const lab = document.createElement("div");
+              lab.className = "section-label";
+              lab.textContent = s.label;
+              const bod = document.createElement("div");
+              bod.className = "section-body";
+              bod.textContent = softenAllCapsMenuBody(s.body);
+              block.appendChild(lab);
+              block.appendChild(bod);
+              wrapBh.appendChild(block);
+            }
+            mealBh.appendChild(wrapBh);
+          } else {
+            const bodyBh = document.createElement("div");
+            bodyBh.className = "section-body";
+            bodyBh.style.textAlign = "left";
+            bodyBh.textContent = softenAllCapsMenuBody(bhEnt.menu);
+            mealBh.appendChild(bodyBh);
+          }
+          stack.appendChild(mealBh);
+        }
+
+        if (dhEnt) {
+          if (bEnt || lEnt || bhEnt) {
+            const div3 = document.createElement("div");
+            div3.className = "menu-divider";
+            div3.setAttribute("role", "presentation");
+            stack.appendChild(div3);
+          }
+          const mealDh = document.createElement("div");
+          mealDh.className = "meal-block";
+          const titleDh = document.createElement("div");
+          titleDh.className = "meal-block-title";
+          titleDh.textContent = "Decatur High";
+          mealDh.appendChild(titleDh);
+          const dhSecs = parseDecaturHighMenuSections(dhEnt.menu);
+          if (dhSecs) {
+            const wrapDh = document.createElement("div");
+            wrapDh.className = "sections";
+            for (const s of dhSecs) {
+              const block = document.createElement("div");
+              block.className = "section";
+              const lab = document.createElement("div");
+              lab.className = "section-label";
+              lab.textContent = s.label;
+              const bod = document.createElement("div");
+              bod.className = "section-body";
+              bod.textContent = softenAllCapsMenuBody(s.body);
+              block.appendChild(lab);
+              block.appendChild(bod);
+              wrapDh.appendChild(block);
+            }
+            mealDh.appendChild(wrapDh);
+          } else {
+            const bodyDh = document.createElement("div");
+            bodyDh.className = "section-body";
+            bodyDh.style.textAlign = "left";
+            bodyDh.textContent = softenAllCapsMenuBody(dhEnt.menu);
+            mealDh.appendChild(bodyDh);
+          }
+          stack.appendChild(mealDh);
+        }
+        content.appendChild(stack);
+      } else {
+        const w = cursor.getDay();
+        const weekend = w === 0 || w === 6;
+        const p = document.createElement("p");
+        p.className = "empty";
+        if (weekend) {
+          p.textContent =
+            "No school breakfast, lunch, Beacon Hill Middle, or Decatur High menus on weekends. Use the arrows to browse nearby school days.";
+        } else {
+          p.textContent =
+            "No menus listed for this date. It may be a holiday or outside the published semester range (Aug 3–Dec 18, 2026).";
+        }
+        content.appendChild(p);
+      }
+    }
+
+    function shiftDays(n) {
+      cursor.setDate(cursor.getDate() + n);
+      cursor.setHours(12, 0, 0, 0);
+      render();
+    }
+
+    document.getElementById("prev").addEventListener("click", () => shiftDays(-1));
+    document.getElementById("next").addEventListener("click", () => shiftDays(1));
+    document.getElementById("jumpToday").addEventListener("click", () => {
+      cursor = todayNoon();
+      render();
+    });
+    document.getElementById("btnRefresh").addEventListener("click", () => refreshFromDistrict());
+    document.getElementById("btnResetBuiltin").addEventListener("click", () => resetToBuiltin());
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        shiftDays(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        shiftDays(1);
+      }
+    });
+
+    (function initStatus() {
+      try {
+        if (localStorage.getItem(LS_KEY) && !menusAreStaleForToday()) {
+          setRefreshStatus(
+            "Using breakfast, lunch, Beacon Hill Middle, and Decatur High data last refreshed in this browser.",
+            false
+          );
+        }
+      } catch (_) {}
+    })();
+
+    render();
+
+    // If today is past the last school day we have menus for, pull fresh PDFs from the district.
+    // At most once per calendar day so a failed/empty new-year fetch does not hammer the network.
+    (function maybeAutoRefreshPastKnownMenus() {
+      if (!menusAreStaleForToday()) return;
+      const attemptKey = LS_KEY + "-stale-auto-refresh";
+      const today = localIso(todayNoon());
+      try {
+        if (localStorage.getItem(attemptKey) === today) return;
+        localStorage.setItem(attemptKey, today);
+      } catch (_) {}
+      setRefreshStatus(
+        "Menus on file end before today — checking the district for updated PDFs…",
+        false
+      );
+      refreshFromDistrict();
+    })();
+
+  </script>
+</body>
+</html>
